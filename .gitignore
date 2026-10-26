@@ -52,3 +52,4 @@ phpunit.phar
 /backend/web/robots.txt
 
 .env
+common/runtime/cache/

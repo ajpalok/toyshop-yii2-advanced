@@ -25,7 +25,7 @@ return [
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced-frontend',
+            'name' => 'toyshop-advanced-frontend',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -39,14 +39,30 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+
+        // Routes for the frontend application
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '' => 'site/index',
+                'toys' => 'toy/index',
+                'toys/category/<category:[a-z0-9\-]+>' => 'toy/category',
+                'toy/<slug:[a-z0-9\-]+>' => 'toy/view',
+
+                'cart' => 'cart/index',
+                'POST cart/add' => 'cart/add',
+                'POST cart/remove' => 'cart/remove',
+
+                'checkout' => 'checkout/index',
+                'orders' => 'order/index',
+                'order/<number:[A-Z0-9]+>' => 'order/view',
+
+                'login' => 'site/login',
+                'logout' => 'site/logout',
+                'signup' => 'site/signup',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
