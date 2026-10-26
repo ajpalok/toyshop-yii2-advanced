@@ -25,14 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Html::a(Html::encode($product->name), ['toy/view', 'slug' => $product->slug]) ?>
                 </h3>
                 <p>
-                    <?php if ($product->sale_price !== null): ?>
+                    <?php if ($product->isOnSale()): ?>
                         <del><?= Html::encode($product->price) ?></del>
-                        <strong><?= Html::encode($product->sale_price) ?></strong>
+                        <strong><?= Html::encode($product->getEffectivePrice()) ?></strong>
                     <?php else: ?>
                         <strong><?= Html::encode($product->price) ?></strong>
                     <?php endif; ?>
                 </p>
-                <?php if ($product->stock <= 0): ?>
+                <?php if (!$product->isInStock()): ?>
                     <p>Out of stock</p>
                 <?php endif; ?>
             </div>

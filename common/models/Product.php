@@ -57,6 +57,30 @@ class Product extends ActiveRecord
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels(): array
+    {
+        return [
+            'id' => 'ID',
+            'category_id' => 'Category',
+            'name' => 'Name',
+            'slug' => 'Slug',
+            'sku' => 'SKU',
+            'description' => 'Description',
+            'price' => 'Price',
+            'sale_price' => 'Sale Price',
+            'stock' => 'Stock',
+            'min_age' => 'Min Age',
+            'max_age' => 'Max Age',
+            'is_featured' => 'Featured',
+            'status' => 'Status',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+        ];
+    }
+
+    /**
      * @return ActiveQuery
      */
     public function getCategory(): ActiveQuery
@@ -67,8 +91,47 @@ class Product extends ActiveRecord
     /**
      * @return ActiveQuery
      */
+    public function getImages(): ActiveQuery
+    {
+        return $this->hasMany(ProductImage::class, ['product_id' => 'id'])
+            ->orderBy(['sort_order' => SORT_ASC]);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getMainImage(): ActiveQuery
+    {
+        return $this->hasOne(ProductImage::class, ['product_id' => 'id'])
+            ->orderBy(['sort_order' => SORT_ASC]);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
     public static function findActive(): ActiveQuery
     {
         return static::find()->where(['status' => self::STATUS_ACTIVE]);
+    }
+
+    /**
+     * Whether the product currently has a discounted price lower than the regular price.
+     */
+    public function isOnSale(): bool
+    {
+        return $this->sale_price !== null && (float) $this->sale_price < (float) $this->price;
+    }
+
+    /**
+     * The price customers actually pay: the sale price when on sale, otherwise the regular price.
+     */
+    public function getEffectivePrice(): float
+    {
+        return $this->isOnSale() ? (float) $this->sale_price : (float) $this->price;
+    }
+
+    public function isInStock(): bool
+    {
+        return $this->stock > 0;
     }
 }

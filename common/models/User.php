@@ -215,4 +215,12 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrders(): \yii\db\ActiveQuery
+    {
+        return $this->hasMany(Order::class, ['user_id' => 'id'])->orderBy(['created_at' => SORT_DESC]);
+    }
 }

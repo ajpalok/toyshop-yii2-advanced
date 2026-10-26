@@ -57,4 +57,14 @@ class Category extends ActiveRecord
     {
         return static::find()->where(['is_active' => true])->orderBy(['sort_order' => SORT_ASC]);
     }
+
+    /**
+     * Active categories for the navigation menu.
+     *
+     * @return Category[]
+     */
+    public static function findMenu(): array
+    {
+        return static::findActive()->all();
+    }
 }

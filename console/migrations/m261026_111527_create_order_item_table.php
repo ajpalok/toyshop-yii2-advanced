@@ -32,7 +32,7 @@ class m261026_111527_create_order_item_table extends Migration
             'CASCADE', // on delete this will delete all order items associated with the order
             'CASCADE' // on update this will update all order items associated with the order if the order id changes
         );
-        $this->createForeignKey(
+        $this->addForeignKey(
             'fk-order_item-product',
             '{{%order_item}}',
             'product_id',
