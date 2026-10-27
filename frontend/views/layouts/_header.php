@@ -14,6 +14,19 @@ $items = [
         'url' => ['/site/index'],
     ],
     [
+        'label' => 'Toys',
+        'url' => ['/toy/index'],
+    ],
+    [
+        'label' => 'Cart',
+        'url' => ['/cart/index'],
+    ],
+    [
+        'label' => 'Your Orders',
+        'url' => ['/order/index'],
+        'visible' => !Yii::$app->user->isGuest,
+    ],
+    [
         'label' => 'About',
         'url' => ['/site/about'],
     ],

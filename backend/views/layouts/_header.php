@@ -14,6 +14,21 @@ $items = [
         'url' => ['/site/index'],
     ],
     [
+        'label' => 'Categories',
+        'url' => ['/category/index'],
+        'visible' => !Yii::$app->user->isGuest,
+    ],
+    [
+        'label' => 'Toys',
+        'url' => ['/product/index'],
+        'visible' => !Yii::$app->user->isGuest,
+    ],
+    [
+        'label' => 'Orders',
+        'url' => ['/order/index'],
+        'visible' => !Yii::$app->user->isGuest,
+    ],
+    [
         'label' => 'Login',
         'url' => ['/site/login'],
         'visible' => Yii::$app->user->isGuest,

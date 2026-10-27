@@ -63,7 +63,27 @@ class SignupForm extends Model
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
 
-        return $user->save() && $this->sendEmail($mailer, $user, $supportEmail, $appName);
+        if (!$user->save()) {
+            return false;
+        }
+
+        $this->assignCustomerRole($user);
+
+        return $this->sendEmail($mailer, $user, $supportEmail, $appName);
+    }
+
+    /**
+     * Every signed-up user needs the "customer" role to view/cancel their own orders later;
+     * without it the RBAC rule on OrderController has nothing to grant them.
+     */
+    private function assignCustomerRole(User $user): void
+    {
+        $auth = Yii::$app->authManager;
+        $role = $auth->getRole('customer');
+
+        if ($role !== null && $auth->getAssignment('customer', $user->id) === null) {
+            $auth->assign($role, $user->id);
+        }
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace frontend\controllers;
 
 use common\models\Category;
@@ -9,13 +11,15 @@ use yii\web\NotFoundHttpException;
 
 class ToyController extends Controller
 {
-    public function actionIndex()
+    public function actionIndex(): string
     {
-        // Logic to display a list of toys
-        return $this->render('index');
+        return $this->render('index', [
+            'categories' => Category::findMenu(),
+            'products' => Product::findActive()->orderBy(['name' => SORT_ASC])->all(),
+        ]);
     }
 
-    public function actionCategory($category)
+    public function actionCategory(string $category): string
     {
         $model = Category::findActive()->andWhere(['slug' => $category])->one();
 
@@ -34,9 +38,14 @@ class ToyController extends Controller
         ]);
     }
 
-    public function actionView($slug)
+    public function actionView(string $slug): string
     {
-        // Logic to display a single toy based on its slug
-        return $this->render('view', ['slug' => $slug]);
+        $model = Product::findActive()->andWhere(['slug' => $slug])->one();
+
+        if ($model === null) {
+            throw new NotFoundHttpException('The requested product does not exist.');
+        }
+
+        return $this->render('view', ['product' => $model]);
     }
 }
