@@ -22,7 +22,6 @@ class SeedController extends Controller
             return ExitCode::UNSPECIFIED_ERROR;
         }
         $db = Yii::$app->db;
-        $now = time();
         $categories = [
             'Lego and Blocks',
             'Dolls',
@@ -38,8 +37,6 @@ class SeedController extends Controller
                     'slug' => Inflector::slug($name),
                     'sort_order' => $i,
                     'is_active' => true,
-                    'created_at' => $now,
-                    'updated_at' => $now,
                 ])->execute();
             }
             $categoryIds = (new Query())->select('id')
@@ -59,8 +56,6 @@ class SeedController extends Controller
                     10,
                     $n % 7 === 0,
                     Product::STATUS_ACTIVE,
-                    $now,
-                    $now,
                 ];
             }
             $db->createCommand()->batchInsert('{{%product}}', [
@@ -75,8 +70,6 @@ class SeedController extends Controller
                 'max_age',
                 'is_featured',
                 'status',
-                'created_at',
-                'updated_at',
             ], $rows)->execute();
             $transaction->commit();
         } catch (\Throwable $e) {

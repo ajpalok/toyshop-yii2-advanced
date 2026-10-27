@@ -39,6 +39,7 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'cart' => static fn () => \Yii::$container->get(\common\services\cart\CartService::class),
 
         // Routes for the frontend application
         'urlManager' => [

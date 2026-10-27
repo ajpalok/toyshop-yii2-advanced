@@ -37,5 +37,17 @@ return [
             'timeFormat' => 'php:H:i:s',
             'currencyCode' => 'BDT',
         ],
+        'authManager' => [
+            'class' => \yii\rbac\DbManager::class,
+            'cache' => 'cache',
+        ],
+    ],
+    'container' => [
+        'singletons' => [
+            \common\services\cart\CartStorageInterface::class => \common\services\cart\SessionCartStorage::class,
+            \common\services\cart\CartService::class => \common\services\cart\CartService::class,
+            \common\services\checkout\CheckoutService::class => \common\services\checkout\CheckoutService::class,
+            \common\services\order\OrderStatusService::class => \common\services\order\OrderStatusService::class,
+        ],
     ],
 ];

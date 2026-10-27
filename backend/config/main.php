@@ -47,5 +47,12 @@ return [
         ],
         */
     ],
+    'as access' => [
+        'class' => \yii\filters\AccessControl::class,
+        'except' => ['site/login', 'site/error'],
+        'rules' => [
+            ['allow' => true, 'roles' => ['accessBackend']],
+        ],
+    ],
     'params' => $params,
 ];
